@@ -7,7 +7,7 @@ const discord = require('discord-helper.js');
 const { date} = require('better-date.js');
 const { default: DisTube } = require('distube');
 const { default: SpotifyPlugin } = require('@distube/spotify');
-const { Logger } = require('./utils/customlogger');
+const { Logger } = require('simply-logger')
 
 const botdate = new date("America/New_York", 12).date
 
@@ -39,7 +39,7 @@ const client = new Client({
 
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
-    leaveOnFinish: true,
+    leaveOnFinish: true, 
     plugins: [new SpotifyPlugin()],
 });
 
