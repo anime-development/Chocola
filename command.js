@@ -166,6 +166,19 @@ module.exports = (client, guild) => {
                         required: true
                     }
                 ]
+            },
+            {
+                name: 'hug',
+                description: 'hug someone',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'user',
+                        description: 'member to hug',
+                        type: 'USER',
+                        required: true,
+                    }
+                ]
             }
         ]
     })

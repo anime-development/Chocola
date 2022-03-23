@@ -3,10 +3,11 @@ const { ramapiv } = require('../config');
 const { token, ramapitoken } = require('../secure/token');
 const { get: ram_api_get } = require('ram-api.js');
 const discord = require('discord-helper.js');
-const { Logger } = require('simply-logger');
+
 const { date} = require('better-date.js');
 const { default: DisTube } = require('distube');
 const { default: SpotifyPlugin } = require('@distube/spotify');
+const { Logger } = require('./utils/customlogger');
 
 const botdate = new date("America/New_York", 12).date
 
