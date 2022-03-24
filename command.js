@@ -9,6 +9,41 @@ const { Guild, Client } = require("discord.js");
 module.exports = (client, guild) => {
     let commands = guild.commands;
 
+    //guild.commands.fetch('956333626130300938').then(cmd => cmd.delete())
+
+    commands?.create({
+        name: 'custom',
+        description: 'Create a custom slash command with msg response',
+        options: [
+            {
+                name: 'command',
+                description: 'name of the command',
+                type: 'STRING',
+                required: true
+            },
+            {
+                name: 'response',
+                description: 'the response to send back in the embed use one \\n to hit enter',
+                type: 'STRING',
+                required: true,
+            },
+            {
+                name: 'permission',
+                description: 'the role to lock the command too',
+                type: 'ROLE',
+                required: true,
+            },
+            {
+                name: 'ping',
+                description: 'the role to ping leave along to not ping',
+                type: 'ROLE',
+                required: false,
+            },
+
+
+        ]
+    })
+
     commands?.create({
         name: "music",
         description: "get music",
@@ -121,17 +156,17 @@ module.exports = (client, guild) => {
                     {
                         name: 'mod',
                         value: 'mod',
-                        
+
                     },
                     {
                         name: 'misc',
                         value: 'misc',
-                        
+
                     },
                     {
                         name: 'music',
                         value: 'music',
-                        
+
                     }
                 ],
                 required: true,

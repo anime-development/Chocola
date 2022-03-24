@@ -1,10 +1,10 @@
-const {Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, Permissions } = require('discord.js');
 const { ramapiv } = require('../config');
-const { token, ramapitoken } = require('../secure/token');
+const { token, ramapitoken, dburl } = require('../secure/token');
 const { get: ram_api_get } = require('ram-api.js');
 const discord = require('discord-helper.js');
 
-const { date} = require('better-date.js');
+const { date } = require('better-date.js');
 const { default: DisTube } = require('distube');
 const { default: SpotifyPlugin } = require('@distube/spotify');
 const { Logger } = require('simply-logger')
@@ -33,17 +33,30 @@ const client = new Client({
         Intents.FLAGS.GUILD_SCHEDULED_EVENTS,
         Intents.FLAGS.GUILD_VOICE_STATES,
         Intents.FLAGS.GUILD_WEBHOOKS,
-        
-    ]
+
+    ],
+    allowedMentions: { parse: ['users', 'roles'], repliedUser: true }
+
 })
 
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
-    leaveOnFinish: true, 
+    leaveOnFinish: true,
     plugins: [new SpotifyPlugin()],
 });
 
 module.exports = client;
+
+const mongoose = require("mongoose");
+
+
+mongoose
+    .connect(dburl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: true,
+    })
+    .then(console.log("Mongo Activated.."));
 
 client.on('ready', () => {
     client.log = logger;
@@ -54,24 +67,40 @@ client.on('ready', () => {
     client.commands = new Collection();
     client.mod = new Collection();
 
+
+
+
+
+
     ['event', 'command'].forEach(hand => {
         require(`./utils/${hand}`)(client)
     })
 
     client.events.get('ready').run(client)
-    
+
 })
 
 client.on('interactionCreate', (int) => {
+
+
+
     client.events.get('int').run(int, client)
+
+
+
+
+
 })
+
+
+
 
 client.on('guildCreate', async (guild) => {
     require('../command')(client, guild)
     let embed = new MessageEmbed().setTitle(client.user.tag).setDescription(`${guild.name}, Added me set up commands!`)
     discord.discordsendwebhook('https://discord.com/api/webhooks/882314806227513395/qd-LpPFf113Bt1kQ9IDK2Z5sPbRw0UVNkNvHheGFpd85mMtAiYVEFJPW9CyKhseR7zyJ', embed);
 
-    
+
 })
 
 client.login(token);
