@@ -68,9 +68,7 @@ client.on('ready', () => {
     client.mod = new Collection();
 
 
-
-
-
+   
 
     ['event', 'command'].forEach(hand => {
         require(`./utils/${hand}`)(client)

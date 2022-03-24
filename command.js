@@ -11,34 +11,71 @@ module.exports = (client, guild) => {
 
     //guild.commands.fetch('956333626130300938').then(cmd => cmd.delete())
 
+
+
     commands?.create({
         name: 'custom',
         description: 'Create a custom slash command with msg response',
+
+
         options: [
             {
-                name: 'command',
-                description: 'name of the command',
-                type: 'STRING',
-                required: true
+                name: 'create',
+                description: 'creates a command',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'command',
+                        description: 'name of the command',
+                        type: 'STRING',
+                        required: true
+                    },
+                    {
+                        name: 'response',
+                        description: 'the response to send back in the embed use one \\n to hit enter',
+                        type: 'STRING',
+                        required: true,
+                    },
+                    {
+                        name: 'permission',
+                        description: 'the role to lock the command too',
+                        type: 'ROLE',
+                        required: true,
+                    },
+                    {
+                        name: 'ping',
+                        description: 'the role to ping leave along to not ping',
+                        type: 'ROLE',
+                        required: false,
+                    },
+                    {
+                        name: 'title',
+                        description: 'Custom embed title default (Custom Command)',
+                        type: 'STRING',
+                        required: false
+                    }
+                ]
             },
             {
-                name: 'response',
-                description: 'the response to send back in the embed use one \\n to hit enter',
-                type: 'STRING',
-                required: true,
+                name: 'remove',
+                description: 'removes a command',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'name',
+                        description: "command name",
+                        type: "STRING",
+                        required: true
+                    }
+                ]
             },
             {
-                name: 'permission',
-                description: 'the role to lock the command too',
-                type: 'ROLE',
-                required: true,
-            },
-            {
-                name: 'ping',
-                description: 'the role to ping leave along to not ping',
-                type: 'ROLE',
-                required: false,
-            },
+                name: 'list',
+                description: 'removes a command',
+                type: 'SUB_COMMAND',
+
+            }
+
 
 
         ]
@@ -167,6 +204,16 @@ module.exports = (client, guild) => {
                         name: 'music',
                         value: 'music',
 
+                    },
+                    {
+                        name: 'info',
+                        value: 'info',
+
+                    },
+                    {
+                        name: 'custom',
+                        value: 'custom',
+
                     }
                 ],
                 required: true,
@@ -176,6 +223,18 @@ module.exports = (client, guild) => {
                 description: 'page number',
                 type: 'NUMBER',
                 required: false
+            }
+        ]
+    })
+
+    commands?.create({
+        name: 'info',
+        description: 'info commands',
+        options: [
+            {
+                name: 'ping',
+                description: 'ping command',
+                type: 'SUB_COMMAND'
             }
         ]
     })
@@ -219,6 +278,11 @@ module.exports = (client, guild) => {
     })
 
     commands?.create({
+        name: 'warnings',
+        type: 'USER'
+    })
+
+    commands?.create({
         name: 'mod',
         description: 'Moderation',
         options: [
@@ -232,6 +296,69 @@ module.exports = (client, guild) => {
                         type: 'USER',
                         description: 'the member to kick',
                         required: 'true',
+                    },
+                    {
+                        name: 'reason',
+                        type: 'STRING',
+                        description: 'Reason for the ban',
+                        required: false
+                    }
+                ]
+            },
+            {
+                name: 'ban',
+                description: 'bans a member',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'member',
+                        type: 'USER',
+                        description: 'the user to ban',
+                        required: true,
+                    },
+                    {
+                        name: 'reason',
+                        type: 'STRING',
+                        description: 'the reason for the ban',
+                        required: false
+                    }
+                ]
+            },
+            {
+                name: 'warn',
+                description: 'warns a member',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'member',
+                        type: 'USER',
+                        description: 'the user to warn',
+                        required: true,
+                    },
+                    {
+                        name: 'reason',
+                        type: 'STRING',
+                        description: 'the reason for the warnning',
+                        required: false
+                    }
+                ]
+            },
+            {
+                name: 'unwarn',
+                description: 'unwarns a member',
+                type: 'SUB_COMMAND',
+                options: [
+                    {
+                        name: 'member',
+                        type: 'USER',
+                        description: 'the user to unwarn',
+                        required: true,
+                    },
+                    {
+                        name: 'warnid',
+                        type: 'STRING',
+                        description: 'id to the warning',
+                        required: true
                     }
                 ]
             }

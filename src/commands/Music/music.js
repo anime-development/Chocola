@@ -13,7 +13,7 @@ module.exports = {
 	subdescription: ["play a song", "change volume", "change or use settings", "shuffle queue", "see the queue"],
 	category: "music",
 	subcommands: ["play", "volume", "settings", "shuffle", "queue"],
-	usage: ["[song]", "[volume]", "[options]", "", "[page]"],
+	usage: ["/music play [song]", "/music volume [volume]", "/music settings [options]", "/music shuffle", "/music queue [page]"],
 
 	/**
 	 *
@@ -61,8 +61,8 @@ module.exports = {
 					});
 
 					const page = await pages(songarray, 20, pagenumber).then(data => {
-                        return data.array
-                    }).catch(err => client.log.error(err));
+						return data.array
+					}).catch(err => client.log.error(err));
 
 					const maxPages = Math.ceil(songarray.length / 20);
 

@@ -25,6 +25,7 @@ class Custom {
         var response = options.getString('response');
         var ping = options.getRole('ping') || "false";
         var perm = options.getRole('permission') || "false";
+        var title = options.getString('title') || 'Custom Command';
 
 
         let f = false;
@@ -37,6 +38,8 @@ class Custom {
             command: name,
             ping,
             perm,
+            guildid: int.guild.id,
+            title,
             _id: ''
         });
 
@@ -46,7 +49,7 @@ class Custom {
             ?.create({
                 name,
                 description: "Custom Command",
-                defaultPermission: f,
+                defaultPermission: false,
             })
             .then((data) => {
                 newData._id = data.id;
@@ -54,23 +57,38 @@ class Custom {
 
                 var permmisions = [];
 
-                if (perm) permmisions.push({
+                permmisions.push({
                     id: perm.id,
                     type: "ROLE",
                     permission: true,
 
                 })
 
-                if (perm) data.permissions.set({ permissions: permmisions });
+                data.permissions.set({ permissions: permmisions });
 
-                int.reply({ content: `${name} was made with the id of ${data.id} save the id it will be use for deleting this command later`, ephemeral: true })
+                int.reply({ content: `${name} was made and locked to ${perm} for who can run it.`, ephemeral: true })
             });
 
 
 
     }
-    remove(int, client, data) {
+    list(int, client, data) {
+        if (!data) return int.reply('No Commands found');
 
+
+        let embed = new MessageEmbed()
+            .setTitle('Custom Commands List')
+            .setDescription(data.map(c => `Command: ${c.command}`).join("\n"))
+
+        int.reply({ embeds: [embed] })
+    }
+    remove(int, client, data) {
+        const { options, guild, member } = int;
+
+        if (!member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return int.reply({ content: 'permission error missing admin', ephemeral: true });
+        if (data) data.delete();
+
+        int.reply('Command removed run it to fully remove it')
     }
     run(int, client, data) {
         if (!data) return int.guild.commands.delete(int.commandId).then(cmd => {
@@ -89,7 +107,7 @@ class Custom {
         console.log(res)
 
         let embed = new MessageEmbed()
-            .setTitle(`${int.guild.name}'s Custom Command (${int.commandName})`)
+            .setTitle(data.title)
             .setDescription(res)
             .setThumbnail(int.guild.iconURL());
 

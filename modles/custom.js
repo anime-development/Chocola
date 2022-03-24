@@ -10,6 +10,8 @@ const PrefixSchema = new mongoose.Schema({
 		default: "disabled",
 	},
 	ping: String,
+	title: String,
+	guildid: String,
 	perm: {
 		type: String,
 		default: 'disabled'
