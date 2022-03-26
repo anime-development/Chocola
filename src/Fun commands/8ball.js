@@ -1,5 +1,5 @@
 const { Interaction, Client, MessageEmbed } = require("discord.js");
-const { get } = require("ram-api.js");
+const { get, games } = require("ram-api.js");
 const { ramapiv } = require("../../config");
 const { ramapitoken } = require("../../secure/token");
 
@@ -14,7 +14,7 @@ class _8ball {
 
         const q = options.getString('question');
 
-        get._8ball(ramapiv, ramapitoken).then(data => {
+        games._8ball(ramapiv, ramapitoken).then(data => {
             let embed = new MessageEmbed().setColor('BLURPLE').setDescription(`Question: ${q}\n \nAnswer: ${data.text}`)
 
             int.reply({embeds: [embed]})

@@ -9,6 +9,7 @@ class Ping {
         logger.info(`Ping Ran`)
     }
     async run(int, client) {
+        let {options, member, guild, channel} = int;
 
      var ping;
 
@@ -33,11 +34,24 @@ class Ping {
         if (ping.replace('ms', "") >= 500) c = "true";
         if (ping.replace('ms', "") < 500) c = "false";
 
-        const embed = new MessageEmbed()
-            .setAuthor(client.user.tag, client.user.avatarURL())
+        let embedinfo = {
+            author: {
+                name: client.user.tag,
+                icon_url: client.user.avatarURL(),
+            },
+            footer: {
+                text: `Requested By: ${member.user.tag}`,
+                icon_url: member.user.avatarURL({dynamic: true})
+            },
+            timestamp: new Date()
+        }
+
+        const embed = new MessageEmbed(embedinfo)
+           
             .setThumbnail(client.user.avatarURL())
             .setTitle("Pong 🏓")
             .setColor("RANDOM")
+           
             .setDescription(
                 `Latency is: ${Math.round(
                     Date.now() - client.dateping
